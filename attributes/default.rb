@@ -16,10 +16,14 @@
 # limitations under the License.
 #
 
+build_packages = ['tar', 'make', 'automake', 'gcc']
+
 case node['platform']
 when 'ubuntu','debian'
   shell = '/bin/false'
   homedir = '/var/lib/redis'
+  # Change the default build packages for debian based systems
+  build_packages = ['tar', 'build-essential']
 when 'centos','redhat','scientific','amazon','suse'
   shell = '/bin/sh'
   homedir = '/var/lib/redis' 
@@ -30,6 +34,8 @@ else
   shell = '/bin/sh'
   homedir = '/redis'
 end
+
+default['redisio']['build_packages'] = build_packages
 
 #Install related attributes
 default['redisio']['safe_install'] = true
