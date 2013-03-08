@@ -46,6 +46,10 @@ default['redisio']['base_name'] = 'redis-'
 default['redisio']['artifact_type'] = 'tar.gz'
 default['redisio']['version'] = '2.6.10'
 default['redisio']['base_piddir'] = '/var/run/redis'
+default['redisio']['checksum'] = '7c8ac91c2607ae61e2b50a9a7df25120af6df364'
+
+default['redisio']['download_dir'] = Chef::Config[:file_cache_path]
+
 
 #Default settings for all redis instances, these can be overridden on a per server basis in the 'servers' hash
 default['redisio']['default_settings'] = {

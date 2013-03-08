@@ -19,8 +19,46 @@
 include_recipe 'redisio::default'
 include_recipe 'ulimit::default'
 
-redis = node['redisio']
-location = "#{redis['mirror']}/#{redis['base_name']}#{redis['version']}.#{redis['artifact_type']}"
+redis         = node['redisio']
+
+tarball_name  = "#{redis['base_name']}#{redis['version']}"
+tarball       = "#{tarball_name}.#{redis['artifact_type']}"
+download_url  = "#{redis['mirror']}/#{tarball}"
+download_dir  = redis['download_dir']
+checksum      = redis['checksum']
+
+
+execute "Install Redis" do
+  command "make install"
+  cwd "#{download_dir}/#{tarball_name}"
+  action :nothing
+end
+
+execute "Make Redis" do
+  command "make clean && make"
+  cwd "#{download_dir}/#{tarball_name}"
+  action :nothing
+  notifies :run, "execute[Install Redis]", :immediately
+end
+
+execute "Unpack Redis Tarball" do
+  command "tar -xvzf #{tarball}"
+  action :nothing
+  cwd download_dir
+  notifies :run, "execute[Make Redis]", :immediately
+end
+
+remote_file "Download Redis Source" do
+  path "#{download_dir}/#{tarball}"
+  source download_url
+  backup false
+  checksum checksum
+  notifies :run, "execute[Unpack Redis Tarball]", :immediately
+  not_if { redis_exists? && redis['safe_install'] }
+end
+
+
+
 
 redis_instances = redis['servers']
 if redis_instances.nil?
@@ -29,7 +67,7 @@ end
 
 redisio_install "redis-servers" do
   version redis['version']
-  download_url location
+  download_url "location"
   default_settings redis['default_settings']
   servers redis_instances
   safe_install redis['safe_install']

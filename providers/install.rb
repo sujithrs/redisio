@@ -20,13 +20,13 @@
 action :run do
   @tarball = "#{new_resource.base_name}#{new_resource.version}.#{new_resource.artifact_type}"
 
-  unless ( current_resource.version == new_resource.version || (redis_exists? && new_resource.safe_install) )
-    Chef::Log.info("Installing Redis #{new_resource.version} from source")
-    download
-    unpack
-    build
-    install
-  end
+  # unless ( current_resource.version == new_resource.version || (redis_exists? && new_resource.safe_install) )
+  #   Chef::Log.info("Installing Redis #{new_resource.version} from source")
+  #   download
+  #   unpack
+  #   build
+  #   install
+  # end
   configure
 end
 

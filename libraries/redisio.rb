@@ -48,5 +48,13 @@ module RedisioHelper
         :rc => version_array[3]
     }
   end
+
+  def redis_exists?
+    exists = Mixlib::ShellOut.new("which redis-server")
+    exists.run_command
+    exists.exitstatus == 0 ? true : false 
+  end
+
 end
 
+self.class.send(:include, RedisioHelper)
