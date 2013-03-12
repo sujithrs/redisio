@@ -21,7 +21,7 @@ action :install do
 
   user = node['redisio']['user']
   group = node['redisio']['group']
-  config_dir = node['redisio']['config_dir']
+  configdir = node['redisio']['configdir']
   server_name = new_resource.server_name
   descriptors = get_descriptors(node)
 
@@ -33,7 +33,7 @@ action :install do
   # Template the Redis Config File for this server
   redis_context = get_redis_context(node, new_resource)
 
-  template "#{config_dir}/#{server_name}.conf" do
+  template "#{configdir}/#{server_name}.conf" do
     source 'redis.conf.erb'
     cookbook 'redisio'
     owner user
@@ -41,6 +41,8 @@ action :install do
     mode '0644'
     variables(redis_context)
   end
+
+  new_resource.updated_by_last_action(true)
 
 end
 
@@ -89,5 +91,7 @@ action :enable do
     mode mode
     variables(context)
   end
+
+  new_resource.updated_by_last_action(true)
 
 end

@@ -21,30 +21,36 @@ action :start do
   service new_resource.name do
     action :start
   end
+  new_resource.updated_by_last_action(true)
 end
 
 action :stop do
   service new_resource.name do
     action :stop
   end
+  new_resource.updated_by_last_action(true)
 end
 
 action :restart do
   # Call reload action
+  new_resource.updated_by_last_action(true)
 end
 
 action :reload do
   # Reapply Config
+  new_resource.updated_by_last_action(true)
 end
 
 action :enable do
   service new_resource.name do
     action :enable
   end
+  new_resource.updated_by_last_action(true)
 end
 
 action :disable do
   service new_resource.name do
     action :disable
-  end 
+  end
+  new_resource.updated_by_last_action(true)
 end

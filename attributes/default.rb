@@ -56,10 +56,9 @@ default['redisio']['download_dir'] = Chef::Config[:file_cache_path]
 default['redisio']['safe_install'] = true
 default['redisio']['job_control'] = 'initd'
 
-default['redisio']['data_dir'] = '/var/lib/redis'
-default['redisio']['pid_dir'] = '/var/run/redis'
-default['redisio']['log_dir'] = '/var/log/redis'
-default['redisio']['config_dir'] = '/etc/redis'
+default['redisio']['datadir'] = '/var/lib/redis'
+default['redisio']['piddir'] = '/var/run/redis'
+default['redisio']['configdir'] = '/etc/redis'
 
 # Default Redis configuration Settings
 default['redisio']['user'] = user
@@ -68,7 +67,7 @@ default['redisio']['homedir'] = homedir
 default['redisio']['shell'] = shell
 
 default['redisio']['systemuser'] = true
-default['redisio']['ulimit'] = 0
+default['redisio']['ulimit'] = '0'
 default['redisio']['name'] = nil
 default['redisio']['address'] = nil
 
@@ -79,10 +78,10 @@ default['redisio']['unixsocket'] = nil
 
 default['redisio']['unixsocketperm'] = nil
 default['redisio']['port'] = '6379'
-default['redisio']['timeout'] = 0
+default['redisio']['timeout'] = '0'
 default['redisio']['loglevel'] = 'verbose'
 
-default['redisio']['logfile'] = "#{node['redisio']['log_dir']}/redis.log"
+default['redisio']['logfile'] = "/var/log/redis/redis.log"
 default['redisio']['syslog-enabled'] = 'no'
 default['redisio']['syslog-ident'] = 'redis'
 default['redisio']['syslog-facility'] = 'local0'
@@ -97,7 +96,7 @@ default['redisio']['replpingslaveperiod'] = '10'
 default['redisio']['repltimeout'] = '60'
 default['redisio']['requirepass'] = nil
 
-default['redisio']['maxclients'] = 10000
+default['redisio']['maxclients'] = '10000'
 default['redisio']['maxmemory'] = nil
 default['redisio']['maxmemorypolicy'] = 'volatile-lru'
 default['redisio']['maxmemorysamples'] = '3'

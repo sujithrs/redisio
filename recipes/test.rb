@@ -1,9 +1,11 @@
 include_recipe "redisio::install"
 
 redisio "redis-server" do
-  action :install
+  action [:install, :enable]
   version "2.6.10"
+  port "6333"
 end
+
 
 # # Create a service resource for each redis instance, named for the port it runs on.
 # redis_instances.each do |current_server|

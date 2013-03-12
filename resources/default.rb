@@ -16,35 +16,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-actions :install
+actions :install, :enable
 default_action :install if defined?(default_action) # Chef > 10.8
 
 # Big hack below to work around this line not working
 # attribute :version, :kind_of => String, :default => node['redisio']['version']
 
 # Installation attributes
+attribute :server_name, :kind_of => String, :name_attribute => true
 attribute :download_url, :kind_of => String
 attribute :download_dir, :kind_of => String, :default => Chef::Config[:file_cache_path]
 attribute :artifact_type, :kind_of => String, :default => 'tar.gz'
-attribute :base_name, :kind_of => String, :default => 'redis-'
+#attribute :base_name, :kind_of => String, :default => 'redis-'
 attribute :safe_install, :kind_of => [ TrueClass, FalseClass ], :default => true
 attribute :base_piddir, :kind_of => String, :default => '/var/run/redis'
-
-# Configuration attributes
-attribute :user, :kind_of => String, :default => 'redis'
-attribute :group, :kind_of => String, :default => 'redis'
-
-attribute :default_settings, :kind_of => Hash
-attribute :servers, :kind_of => Array
-attribute :server_name, :kind_of => String, :name_attribute => true
 
 def initialize(*args)
   super
   @action = :install
-end
-
-def version(arg=nil)
-  _set_attribute_value(arg, __method__, String)
 end
 
 # Here be dragons
@@ -76,4 +65,175 @@ def _set_attribute_value(arg, attribute_name, kind_of)
     arg,
     :kind_of => kind_of
   )
+end
+
+# Manually define all of the attributes because we cannot dynamically generate
+# them at runtime since the node is not converged and we do not have our
+# attributes
+def version(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def datadir(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def piddir(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def logdir(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def configdir(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def user(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def group(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def homedir(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def shell(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def systemuser(arg=nil)
+   _set_attribute_value(arg, __method__, [TrueClass, FalseClass])
+end
+
+def ulimit(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def name(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def address(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def address(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def databases(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def backuptype(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def unixsocket(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def unixsocketperm(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def port(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def timeout(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def loglevel(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def logfile(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def syslog_enabled(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def syslog_ident(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def syslog_facility(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def shutdown_save(arg=nil)
+   _set_attribute_value(arg, __method__, [TrueClass, FalseClass])
+end
+
+def save(arg=nil)
+   _set_attribute_value(arg, __method__, Array)
+end
+
+def slaveof(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def masterauth(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def slaveservestaledata(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def replpingslaveperiod(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def repltimeout(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def requirepass(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def maxclients(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def maxmemory(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def maxmemorypolicy(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def maxmemorysamples(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def appendfsync(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def noappendfsynconrewrite(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def aofrewritepercentage(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def aofrewriteminsize(arg=nil)
+   _set_attribute_value(arg, __method__, String)
+end
+
+def includes(arg=nil)
+   _set_attribute_value(arg, __method__, String)
 end

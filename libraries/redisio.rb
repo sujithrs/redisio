@@ -20,24 +20,24 @@
 module Redisio
   module Helper
 
-    def recipe_eval
-      sub_run_context = @run_context.dup
-      sub_run_context.resource_collection = Chef::ResourceCollection.new
-      begin
-        original_run_context, @run_context = @run_context, sub_run_context
-        yield
-      ensure
-        @run_context = original_run_context
-      end
+    # def recipe_eval
+    #   sub_run_context = @run_context.dup
+    #   sub_run_context.resource_collection = Chef::ResourceCollection.new
+    #   begin
+    #     original_run_context, @run_context = @run_context, sub_run_context
+    #     yield
+    #   ensure
+    #     @run_context = original_run_context
+    #   end
 
-      begin
-        Chef::Runner.new(sub_run_context).converge
-      ensure
-        if sub_run_context.resource_collection.any?(&:updated?)
-          new_resource.updated_by_last_action(true)
-        end
-      end
-    end
+    #   begin
+    #     Chef::Runner.new(sub_run_context).converge
+    #   ensure
+    #     if sub_run_context.resource_collection.any?(&:updated?)
+    #       new_resource.updated_by_last_action(true)
+    #     end
+    #   end
+    # end
 
     def version_to_hash(version_string)
       version_array = version_string.split('.') 
@@ -74,14 +74,21 @@ module Redisio
     end
 
     def get_descriptors(node)
-      ulimit = node['redisio']['ulimit']
-      maxclients = node['redisio']['maxclients']
+      ulimit = node['redisio']['ulimit'].to_i
+      maxclients = node['redisio']['maxclients'].to_i
       descriptors = ulimit == 0 ? maxclients + 32 : maxclients
       descriptors
     end
 
     def get_redis_context(node, nr)
       redis_context = node['redisio'].clone
+      redis_context.each do |k,v|
+        begin
+          redis_context[k] = new_resource.send(k.to_sym)
+        rescue NoMethodError
+          Chef::Log.debug("{nr} No Method found for #{k.to_sym}")
+        end
+      end
       redis_context['maxmemory'] = get_max_memory(node)
       redis_context['version'] = version_to_hash(node['redisio']['version'])
       redis_context['name'] = new_resource.server_name
