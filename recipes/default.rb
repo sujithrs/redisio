@@ -16,14 +16,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-build_packages = node['redisio']['build_packages']
-
-build_packages.each do |pkg|
-  package pkg do
-    action :install
-    retry_delay 5
-    retries 3
-  end
-end
-

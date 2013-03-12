@@ -12,9 +12,7 @@ Vagrant::Config.run do |config|
     chef.log_level = "debug"
 
     chef.run_list = [
-#      "recipe[minitest-handler::default]",
-      "recipe[redisio::install]",
-      "recipe[redisio::enable]"
+      "recipe[redisio::test]",
     ]
   end
 end

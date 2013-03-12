@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: redisio
-# Resource::uninstall
+# Recipe:: install
 #
 # Copyright 2013, Brian Bianco <brian.bianco@gmail.com>
 #
@@ -16,13 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe 'redisio::default'
+include_recipe 'ulimit::default'
 
-actions :run, :nothing
+# Get Packages to build from source
+build_packages = node['redisio']['build_packages']
 
-attribute :servers, :kind_of => Array, :default => nil
-
-def initialize(name, run_context=nil)
-  super
-  @action = :nothing
+build_packages.each do |pkg|
+  package pkg do
+    action :install
+    retry_delay 5
+    retries 3
+  end
 end
-

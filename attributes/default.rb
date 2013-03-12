@@ -16,6 +16,9 @@
 # limitations under the License.
 #
 
+user = 'redis'
+group = 'redis'
+
 build_packages = ['tar', 'make', 'automake', 'gcc']
 
 case node['platform']
@@ -29,7 +32,9 @@ when 'centos','redhat','scientific','amazon','suse'
   homedir = '/var/lib/redis' 
 when 'fedora'
   shell = '/bin/sh'
-  homedir = '/home' #this is necessary because selinux by default prevents the homedir from being managed in /var/lib/ 
+  homedir = '/home' 
+  # This is necessary because selinux by default prevents the homedir from 
+  # being managed in /var/lib/ 
 else
   shell = '/bin/sh'
   homedir = '/redis'
@@ -37,61 +42,69 @@ end
 
 default['redisio']['build_packages'] = build_packages
 
-#Install related attributes
-default['redisio']['safe_install'] = true
+# Set VM Overcommit Memory for Redis
+default['sysctl']['vm']['overcommit_memory'] = 1
 
-#Tarball and download related defaults
+# Tarball and download related defaults
 default['redisio']['mirror'] = "https://redis.googlecode.com/files"
 default['redisio']['base_name'] = 'redis-'
 default['redisio']['artifact_type'] = 'tar.gz'
 default['redisio']['version'] = '2.6.10'
-default['redisio']['base_piddir'] = '/var/run/redis'
 default['redisio']['checksum'] = '7c8ac91c2607ae61e2b50a9a7df25120af6df364'
-
 default['redisio']['download_dir'] = Chef::Config[:file_cache_path]
 
+default['redisio']['safe_install'] = true
+default['redisio']['job_control'] = 'initd'
 
-#Default settings for all redis instances, these can be overridden on a per server basis in the 'servers' hash
-default['redisio']['default_settings'] = {
-  'user'                   => 'redis',
-  'group'                  => 'redis',
-  'homedir'                => homedir,
-  'shell'                  => shell,
-  'systemuser'             => true,
-  'ulimit'                 => 0,
-  'configdir'              => '/etc/redis',
-  'name'                   => nil,
-  'address'                => nil,
-  'databases'              => '16',
-  'backuptype'             => 'rdb',
-  'datadir'                => '/var/lib/redis',
-  'unixsocket'             => nil,
-  'unixsocketperm'         => nil,
-  'timeout'                => '0',
-  'loglevel'               => 'verbose',
-  'logfile'                => nil,
-  'syslogenabled'          => 'yes',
-  'syslogfacility'         => 'local0',
-  'shutdown_save'          => false,
-  'save'                   => nil, # Defaults to ['900 1','300 10','60 10000'] inside of template.  Needed due to lack of hash subtraction
-  'slaveof'                => nil,
-  'job_control'            => 'initd', 
-  'masterauth'             => nil,
-  'slaveservestaledata'    => 'yes',
-  'replpingslaveperiod'    => '10',
-  'repltimeout'            => '60',
-  'requirepass'            => nil,
-  'maxclients'             => 10000,
-  'maxmemory'              => nil,
-  'maxmemorypolicy'        => 'volatile-lru',
-  'maxmemorysamples'       => '3',
-  'appendfsync'            => 'everysec',
-  'noappendfsynconrewrite' => 'no',
-  'aofrewritepercentage'   => '100',
-  'aofrewriteminsize'      => '64mb',
-  'includes'               => nil
-}
+default['redisio']['data_dir'] = '/var/lib/redis'
+default['redisio']['pid_dir'] = '/var/run/redis'
+default['redisio']['log_dir'] = '/var/log/redis'
+default['redisio']['config_dir'] = '/etc/redis'
 
-# The default for this is set inside of the "install" recipe. This is due to the way deep merge handles arrays
-default['redisio']['servers'] = nil
+# Default Redis configuration Settings
+default['redisio']['user'] = user
+default['redisio']['group'] = group
+default['redisio']['homedir'] = homedir
+default['redisio']['shell'] = shell
 
+default['redisio']['systemuser'] = true
+default['redisio']['ulimit'] = 0
+default['redisio']['name'] = nil
+default['redisio']['address'] = nil
+
+default['redisio']['address'] = nil
+default['redisio']['databases'] = '16'
+default['redisio']['backuptype'] = 'rdb'
+default['redisio']['unixsocket'] = nil
+
+default['redisio']['unixsocketperm'] = nil
+default['redisio']['port'] = '6379'
+default['redisio']['timeout'] = 0
+default['redisio']['loglevel'] = 'verbose'
+
+default['redisio']['logfile'] = "#{node['redisio']['log_dir']}/redis.log"
+default['redisio']['syslog-enabled'] = 'no'
+default['redisio']['syslog-ident'] = 'redis'
+default['redisio']['syslog-facility'] = 'local0'
+
+default['redisio']['shutdown_save'] = false
+default['redisio']['save'] = ['900 1','300 10','60 10000']
+default['redisio']['slaveof'] = nil
+default['redisio']['masterauth'] = nil
+
+default['redisio']['slaveservestaledata'] = 'yes'
+default['redisio']['replpingslaveperiod'] = '10'
+default['redisio']['repltimeout'] = '60'
+default['redisio']['requirepass'] = nil
+
+default['redisio']['maxclients'] = 10000
+default['redisio']['maxmemory'] = nil
+default['redisio']['maxmemorypolicy'] = 'volatile-lru'
+default['redisio']['maxmemorysamples'] = '3'
+
+default['redisio']['appendfsync'] = 'everysec'
+default['redisio']['noappendfsynconrewrite'] = 'no'
+default['redisio']['aofrewritepercentage'] = '100'
+default['redisio']['aofrewriteminsize'] = '64mb'
+
+default['redisio']['includes'] = nil

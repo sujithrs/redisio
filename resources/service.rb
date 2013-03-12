@@ -17,9 +17,10 @@
 # limitations under the License.
 #
 
-actions :start, :stop, :restart, :enable, :disable
+actions :start, :stop, :restart, :reload, :enable, :disable
+default_action :start if defined?(default_action) # Chef > 10.8
 
-attribute :server_port, :name_attribute => true
+attribute :name, :name_attribute => true
 
 def initialize(name, run_context=nil)
   super
