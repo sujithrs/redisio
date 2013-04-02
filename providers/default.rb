@@ -25,6 +25,8 @@ action :install do
   server_name = new_resource.server_name
   descriptors = get_descriptors(node)
 
+  port = new_resource.port
+
   # Setup the redis users descriptor limits
   user_ulimit user do
     filehandle_limit descriptors
@@ -40,8 +42,17 @@ action :install do
     group group
     mode '0644'
     variables(redis_context)
+    notifies :create, "ruby_block[Apply Config for #{server_name}]"
   end
 
+  ruby_block "Apply Config for #{server_name}" do
+    action :nothing
+    block do
+      reload_redis_config(redis_context, port, node)
+    end
+    only_if {redis_running?(port)}
+  end
+  
   new_resource.updated_by_last_action(true)
 
 end
@@ -94,4 +105,10 @@ action :enable do
 
   new_resource.updated_by_last_action(true)
 
+end
+
+action :start do
+  service new_resource.server_name do
+    action :start
+  end
 end

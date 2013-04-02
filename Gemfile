@@ -1,8 +1,7 @@
 source :rubygems
 
-gem 'berkshelf'
+gem 'berkshelf', '>= 1.3.1'
 gem 'chef'
-gem 'vagrant', '~> 1.0.5'
 gem 'foodcritic'
 gem 'rspec-core'
 gem 'rspec-mocks'

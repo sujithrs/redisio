@@ -1,5 +1,3 @@
-require 'berkshelf/vagrant'
-
 Vagrant::Config.run do |config|
 
   config.vm.box = "Yipit12.04.1-10.18.2"

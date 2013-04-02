@@ -10,25 +10,23 @@ test:
 	bundle exec bash -i -c rspec_test
 
 vagrant:
-	@if [ -f .vagrant ];\
-		then bundle exec vagrant provision;\
+	@if [ -d .vagrant ];\
+		then vagrant provision;\
 	else\
-		bundle exec vagrant up;\
+                vagrant up;\
+		vagrant provision;\
 	fi
 
 ssh:
-	@bundle exec vagrant ssh $(filter-out $@,$(MAKECMDGOALS))
-
-master:
-	echo 
+	@vagrant ssh $(filter-out $@,$(MAKECMDGOALS))
 
 status:
-	@bundle exec vagrant status
+	@vagrant status
 
 clean:
 	@rm -f Berksfile.lock
 	@rm -f Gemfile.lock
-	@if [ -f .vagrant ];\
-		then bundle exec vagrant destroy -f;\
-		rm -f .vagrant;\
+	@if [ -d .vagrant ];\
+		then vagrant destroy -f;\
+		rm -rf .vagrant;\
 	fi

@@ -1,7 +1,7 @@
-pid_dir      = node['redisio']['piddir']
+pid_dir      = node['redisio']['config']['piddir']
+data_dir     = node['redisio']['config']['dir']
 config_dir   = node['redisio']['configdir']
-data_dir     = node['redisio']['datadir']
-log_dir      = ::File.dirname(node['redisio']['logfile'])
+log_dir      = node['redisio']['logdir']
 
 user         = node['redisio']['user']
 group        = node['redisio']['group']
