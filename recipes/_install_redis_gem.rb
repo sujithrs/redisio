@@ -1,3 +1,5 @@
+include_recipe "redisio::_install_build_packages"
+
 chef_gem "redis" do
   version "3.0.3"
   action :install
