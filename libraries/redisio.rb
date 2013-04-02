@@ -61,6 +61,7 @@ module Redisio
       redis_context['maxmemory'] = get_max_memory(node)
       redis_context['name'] = new_resource.server_name
       redis_context['pidfile'] = "#{redis_context['piddir']}/#{redis_context['name']}.pid"
+      redis_context['logfile'] = "#{redis_context['logdir']}/#{redis_context['name']}.log"
       redis_context = redis_context.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
       Chef::Log.debug(redis_context.inspect)
       redis_context

@@ -27,5 +27,5 @@ build_packages.each do |pkg|
     action :install
     retry_delay 5
     retries 3
-  end
+  end.run_action(:install)
 end

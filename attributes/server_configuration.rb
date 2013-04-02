@@ -27,7 +27,7 @@ default['redisio']['config']['timeout']                     = "0"
 default['redisio']['config']['tcp_keepalive']               = "0"
 
 default['redisio']['config']['loglevel']                    = "notice"
-default['redisio']['config']['logfile']                     = "stdout"
+default['redisio']['config']['logdir']                     = "/var/log/redis"
 default['redisio']['config']['syslog_enabled']              = nil
 default['redisio']['config']['syslog_ident']                = nil
 

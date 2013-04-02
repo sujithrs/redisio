@@ -63,6 +63,8 @@ action :enable do
   group = node['redisio']['group']
   server_name = new_resource.server_name
 
+  redis_context = get_redis_context(node, new_resource)
+
   if node['redisio']['job_control'] == 'initd'
     owner = 'root'
     group = 'root'
@@ -80,16 +82,15 @@ action :enable do
   context = {
     :name          => server_name,
     :job_control   => node['redisio']['job_control'],
-    :port          => node['redisio']['port'],
+    :port          => redis_context['port'],
     :address       => node['redisio']['address'],
     :user          => node['redisio']['user'],
     :group         => node['redisio']['group'],
-    :maxclients    => node['redisio']['maxclients'],
-    :requirepass   => node['redisio']['requirepass'],
+    :requirepass   => redis_context['requirepass'],
     :shutdown_save => node['redisio']['shutdown_save'],
     :save          => node['redisio']['save'],
     :configdir     => node['redisio']['configdir'],
-    :piddir        => node['redisio']['piddir'],
+    :piddir        => redis_context['piddir'],
     :platform      => node['platform'],
     :unixsocket    => node['redisio']['unixsocket']
   }

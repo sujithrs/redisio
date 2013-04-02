@@ -33,7 +33,7 @@ default['sysctl']['vm']['overcommit_memory'] = 1
 default['redisio']['mirror'] = "https://redis.googlecode.com/files"
 default['redisio']['base_name'] = 'redis-'
 default['redisio']['artifact_type'] = 'tar.gz'
-default['redisio']['version'] = '2.6.11'
+default['redisio']['version'] = '2.6.12'
 default['redisio']['checksum'] = '7c8ac91c2607ae61e2b50a9a7df25120af6df364'
 default['redisio']['download_dir'] = Chef::Config[:file_cache_path]
 

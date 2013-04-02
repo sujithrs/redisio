@@ -31,11 +31,11 @@ CLIEXEC=/usr/local/bin/redis-cli
 <% end %>
 <% connection_string  << " -a '#{@requirepass}'" unless @requirepass.nil? %>  
 
-PIDFILE=<%= @piddir %>/redis_${REDISNAME}.pid
+PIDFILE=<%= @piddir %>/${REDISNAME}.pid
 
 if [ ! -d <%= @piddir %> ]; then
     mkdir -p <%= @piddir %>
-    chown <%= @user %>  <%= @piddir %>
+    chown <%= @user %> <%= @piddir %>
 fi
 
 case "$1" in
