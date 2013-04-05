@@ -76,7 +76,7 @@ module Redisio
 
     def has_convertable_suffix?(string)
       convertible_suffixes = ['k', 'm', 'g', 'kb', 'mb', 'gb']
-      return convertible_suffixes.any? { |suffix| string.scan(/#{suffix}$/) }
+      return convertible_suffixes.any? { |suffix| string.to_s.scan(/#{suffix}$/) != [] }
     end
 
     def convert_suffix(string)
