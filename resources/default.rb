@@ -16,8 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-actions :install, :enable, :start
-default_action :install if defined?(default_action) # Chef > 10.8
+actions :configure, :enable, :start
+default_action :configure if defined?(default_action) # Chef > 10.8
 
 # Big hack below to work around this line not working
 # attribute :version, :kind_of => String, :default => node['redisio']['version']
@@ -32,7 +32,7 @@ attribute :safe_install, :kind_of => [ TrueClass, FalseClass ], :default => true
 
 def initialize(*args)
   super
-  @action = :install
+  @action = :configure
 end
 
 # Here be dragons

@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-action :install do
+action :configure do
 
   user = node['redisio']['user']
   group = node['redisio']['group']
