@@ -34,7 +34,8 @@ default['redisio']['mirror'] = "https://redis.googlecode.com/files"
 default['redisio']['base_name'] = 'redis-'
 default['redisio']['artifact_type'] = 'tar.gz'
 default['redisio']['version'] = '2.6.12'
-default['redisio']['checksum'] = '7c8ac91c2607ae61e2b50a9a7df25120af6df364'
+default['redisio']['sha256_checksum'] = '268582de99798d5069c2a0cad80632d7251ddede8f1b7133f3bc3d05c60b4c12'
+default['redisio']['sha1_checksum'] = '4215ff7cb718284e29910947ac9894d0679f2299'
 default['redisio']['download_dir'] = Chef::Config[:file_cache_path]
 
 default['redisio']['safe_install'] = true
