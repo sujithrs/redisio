@@ -5,9 +5,8 @@ install:
 	bundle exec berks install
 
 test:
-	bundle exec bash -i -c knife_test
-	bundle exec bash -i -c foodcritic_test
-	bundle exec bash -i -c rspec_test
+	bundle exec foodcritic .
+	bundle exec rspec .
 
 vagrant:
 	@if [ -d .vagrant ];\

@@ -98,3 +98,21 @@ describe "Convert the Config Suffix" do
     end
   end
 end
+
+
+describe "Check that Redis Server exists" do
+
+  before(:each) do
+    @redis = RedisioHelpers.new
+    @redis.extend(Redisio::Helper)
+    Mixlib::ShellOut.any_instance.stub(:run_command)
+  end
+
+  context "and is installed" do
+    it "should have redis existing" do
+      Mixlib::ShellOut.any_instance.stub(:exitstatus).and_return(0)
+      @redis.redis_exists?().should be_true
+    end
+  end
+
+end
