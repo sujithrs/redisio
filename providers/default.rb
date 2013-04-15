@@ -82,15 +82,15 @@ action :enable do
   context = {
     :name          => server_name,
     :job_control   => node['redisio']['job_control'],
-    :port          => redis_context['port'],
+    :port          => redis_context[:port],
     :address       => node['redisio']['address'],
     :user          => node['redisio']['user'],
     :group         => node['redisio']['group'],
-    :requirepass   => redis_context['requirepass'],
+    :requirepass   => redis_context[:requirepass],
     :shutdown_save => node['redisio']['shutdown_save'],
     :save          => node['redisio']['save'],
     :configdir     => node['redisio']['configdir'],
-    :piddir        => redis_context['piddir'],
+    :piddir        => redis_context[:piddir],
     :platform      => node['platform'],
     :unixsocket    => node['redisio']['unixsocket']
   }
