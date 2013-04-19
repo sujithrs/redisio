@@ -104,6 +104,10 @@ action :enable do
     variables(context)
   end
 
+  service new_resource.server_name do
+    action :enable
+  end
+
   new_resource.updated_by_last_action(true)
 
 end

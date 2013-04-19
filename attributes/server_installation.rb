@@ -27,7 +27,7 @@ end
 default['redisio']['build_packages'] = build_packages
 
 # Set VM Overcommit Memory for Redis
-default['sysctl']['vm']['overcommit_memory'] = 1
+default['sysctl']['vm']['vm.overcommit_memory'] = 1
 
 # Tarball and download related defaults
 default['redisio']['mirror'] = "https://redis.googlecode.com/files"
